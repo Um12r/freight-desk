@@ -16,8 +16,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shipping System",
-  description: "Shipping system",
+  title: { default: "Freight Desk", template: "%s · Freight Desk" },
+  description: "Agent communications for freight forwarding",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

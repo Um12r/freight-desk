@@ -2,6 +2,7 @@
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { getSupabaseUrl } from "./env";
+import type { Database } from "./types";
 
 // Service-role client. BYPASSES Row Level Security.
 // Use only in trusted server code that has no user session (cron jobs,
@@ -13,7 +14,7 @@ export function createAdminClient() {
     throw new Error("Missing env var SUPABASE_SERVICE_ROLE_KEY");
   }
 
-  return createClient(getSupabaseUrl(), serviceRoleKey, {
+  return createClient<Database>(getSupabaseUrl(), serviceRoleKey, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,

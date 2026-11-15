@@ -1,10 +1,11 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { getSupabaseAnonKey, getSupabaseUrl } from "./env";
+import { getSupabasePublishableKey, getSupabaseUrl } from "./env";
+import type { Database } from "./types";
 
 // Server client for Server Components, Server Actions and Route Handlers.
-// Acts as the signed-in user (anon key + session cookie), so RLS applies.
+// Acts as the signed-in user (publishable key + session cookie), so RLS applies.
 // Create a new one per request; never cache or share it.
 //
 // With Cache Components enabled, cookies() is request-time data: call this
@@ -12,7 +13,7 @@ import { getSupabaseAnonKey, getSupabaseUrl } from "./env";
 export async function createClient() {
   const cookieStore = await cookies();
 
-  return createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+  return createServerClient<Database>(getSupabaseUrl(), getSupabasePublishableKey(), {
     cookies: {
       getAll() {
         return cookieStore.getAll();
